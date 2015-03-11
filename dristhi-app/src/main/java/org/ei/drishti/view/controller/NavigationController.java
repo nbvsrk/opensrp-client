@@ -27,9 +27,9 @@ public class NavigationController {
     }
 
     public void startECSmartRegistry() {
-//        activity.startActivity(new Intent(activity, NativeECSmartRegisterActivity.class));
+        activity.startActivity(new Intent(activity, NativeECSmartRegisterActivity.class));
 //        activity.startActivity(new Intent(activity, NativePersonSmartRegisterActivity.class));
-        activity.startActivity(new Intent(activity, MamoniELigibleCoupleSmartRegisterActivity.class));
+//        activity.startActivity(new Intent(activity, MamoniELigibleCoupleSmartRegisterActivity.class));
     }
 
     public void startFPSmartRegistry() {
@@ -37,7 +37,7 @@ public class NavigationController {
     }
 
     public void startANCSmartRegistry() {
-        activity.startActivity(new Intent(activity, MamoniANCRegisterActivity.class));
+        activity.startActivity(new Intent(activity, NativeANCSmartRegisterActivity.class));
     }
 
     public void startPNCSmartRegistry() {
