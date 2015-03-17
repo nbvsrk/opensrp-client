@@ -2,10 +2,12 @@
     "bindobjects":
  [
     {
-      "name": "mamoni_eligible_couple"
+      "name": "mamoni_eligible_couple",
+      "columns" : [ {"name":"EC_NID"}]
     },
     {
-          "name": "mamoni_pregnant_woman"
+      "name": "mamoni_pregnant_woman",
+      "columns" : [ {"name":"pregID"},{"name":"PW_AGE"}]
     }
  ]
 }
