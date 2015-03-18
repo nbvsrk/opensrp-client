@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import org.ei.drishti.commonregistry.AllCommonsRepository;
 import org.ei.drishti.commonregistry.PersonObject;
 import org.ei.drishti.commonregistry.PersonObjectClients;
+import org.ei.drishti.commonregistry.RepositoryInformationHolder;
 import org.ei.drishti.commonregistry.commonRepository;
 import org.ei.drishti.person.AllPersons;
 import org.ei.drishti.person.PersonClients;
@@ -137,7 +138,7 @@ public class Context {
     private DristhiConfiguration configuration;
 
     ///////////////////common bindtypes///////////////
-    public static ArrayList<String> bindtypes;
+    public static ArrayList<RepositoryInformationHolder> bindtypes;
     /////////////////////////////////////////////////
     protected Context() {
     }
@@ -430,7 +431,7 @@ public class Context {
             drishtireposotorylist.add(serviceProvidedRepository());
 //            drishtireposotorylist.add(personRepository());
             for(int i = 0;i < bindtypes.size();i++){
-                drishtireposotorylist.add(commonrepository(bindtypes.get(i)));
+                drishtireposotorylist.add(commonrepository(bindtypes.get(i).getBindtypename()));
             }
             DrishtiRepository [] drishtireposotoryarray =  drishtireposotorylist.toArray(new DrishtiRepository[drishtireposotorylist.size()]);
             repository = new Repository(this.applicationContext, session(),drishtireposotoryarray );
@@ -807,22 +808,33 @@ public class Context {
             MapOfCommonRepository = new HashMap<String, commonRepository>();
         }
         if(MapOfCommonRepository.get(tablename) == null){
-
-            MapOfCommonRepository.put(tablename,new commonRepository(tablename));
+            int index = 0;
+            for(int i = 0;i<bindtypes.size();i++){
+                if(bindtypes.get(i).getBindtypename().equalsIgnoreCase(tablename)){
+                    index = i;
+                }
+            }
+            MapOfCommonRepository.put(bindtypes.get(index).getBindtypename(),new commonRepository(bindtypes.get(index).getBindtypename(),bindtypes.get(index).getColumnNames()));
         }
 
         return  MapOfCommonRepository.get(tablename);
     }
     public void assignbindtypes(){
-        bindtypes = new ArrayList<String>();
+        bindtypes = new ArrayList<RepositoryInformationHolder>();
         AssetManager assetManager = getInstance().applicationContext().getAssets();
 
         try {
             String str = ReadFromfile("bindtypes.json",getInstance().applicationContext);
             JSONObject jsonObject = new JSONObject(str);
             JSONArray bindtypeObjects = jsonObject.getJSONArray("bindobjects");
+
             for(int i = 0 ;i<bindtypeObjects.length();i++){
-                bindtypes.add(bindtypeObjects.getJSONObject(i).getString("name"));
+                String bindname = bindtypeObjects.getJSONObject(i).getString("name");
+                String [] columNames = new String[ bindtypeObjects.getJSONObject(i).getJSONArray("columns").length()];
+                for(int j = 0 ; j < columNames.length;j++){
+                  columNames[j] =  bindtypeObjects.getJSONObject(i).getJSONArray("columns").getJSONObject(j).getString("name");
+                }
+                bindtypes.add(new RepositoryInformationHolder(bindname,columNames));
                 Log.v("bind type logs",bindtypeObjects.getJSONObject(i).getString("name"));
             }
         } catch (Exception e) {
