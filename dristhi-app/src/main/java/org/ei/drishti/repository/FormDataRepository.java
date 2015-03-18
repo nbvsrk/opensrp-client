@@ -51,7 +51,7 @@ public class FormDataRepository extends DrishtiRepository {
         TABLE_COLUMN_MAP.put(ChildRepository.CHILD_TABLE_NAME, ChildRepository.CHILD_TABLE_COLUMNS);
 //        TABLE_COLUMN_MAP.put(PersonRepository.person_TABLE_NAME, PersonRepository.person_TABLE_COLUMNS);
         for(int i = 0;i< Context.bindtypes.size();i++){
-            TABLE_COLUMN_MAP.put(Context.bindtypes.get(i), commonRepository.common_TABLE_COLUMNS);
+            TABLE_COLUMN_MAP.put(Context.bindtypes.get(i).getBindtypename(),Context.getInstance().commonrepository(Context.bindtypes.get(i).getBindtypename()).common_TABLE_COLUMNS);
         }
 //        TABLE_COLUMN_MAP.put("user",PersonRepository.person_TABLE_COLUMNS);
     }
