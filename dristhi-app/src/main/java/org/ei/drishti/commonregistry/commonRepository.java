@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import net.sqlcipher.database.SQLiteDatabase;
 
 
-
+import org.apache.commons.lang3.ArrayUtils;
 import org.ei.drishti.repository.DrishtiRepository;
 
 import java.util.ArrayList;
@@ -26,12 +26,17 @@ public class commonRepository extends DrishtiRepository {
     public static final String Relational_ID = "relationalid";
     public static final String DETAILS_COLUMN = "details";
     public String TABLE_NAME = "common";
-    public static final String[] common_TABLE_COLUMNS = new String[]{ID_COLUMN,Relational_ID,DETAILS_COLUMN};
+    public  String[] common_TABLE_COLUMNS = new String[]{ID_COLUMN,Relational_ID,DETAILS_COLUMN};
 
-    public commonRepository(String tablename) {
+    public commonRepository(String tablename,String [] columns) {
         super();
+        common_TABLE_COLUMNS = ArrayUtils.addAll(common_TABLE_COLUMNS,columns);
         TABLE_NAME = tablename;
-        common_SQL = "CREATE TABLE "+ TABLE_NAME + "(id VARCHAR PRIMARY KEY,relationalid VARCHAR,details VARCHAR)";
+        common_SQL = "CREATE TABLE "+ TABLE_NAME + "(id VARCHAR PRIMARY KEY,relationalid VARCHAR,";
+        for(int i = 0;i<columns.length;i++){
+            common_SQL = common_SQL+ columns[i] + " VARCHAR,";
+        }
+        common_SQL = common_SQL +"details VARCHAR)";
     }
 
     @Override
