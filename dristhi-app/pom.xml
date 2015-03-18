@@ -217,6 +217,7 @@
                     <browsers>PhantomJS</browsers>
                     <configFile>src/test/js/conf/karma.conf.js</configFile>
                     <singleRun>true</singleRun>
+                    <skipKarma>true</skipKarma>
                 </configuration>
             </plugin>
         </plugins>
