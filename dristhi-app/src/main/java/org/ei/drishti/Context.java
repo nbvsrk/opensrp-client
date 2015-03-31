@@ -13,6 +13,7 @@ import org.ei.drishti.repository.*;
 import org.ei.drishti.service.*;
 import org.ei.drishti.service.formSubmissionHandler.*;
 import org.ei.drishti.sync.SaveANMLocationTask;
+import org.ei.drishti.sync.SaveUserInfoTask;
 import org.ei.drishti.util.Cache;
 import org.ei.drishti.util.Session;
 import org.ei.drishti.view.contract.*;
@@ -112,6 +113,7 @@ public class Context {
     private ECEditHandler ecEditHandler;
     private ANCInvestigationsHandler ancInvestigationsHandler;
     private SaveANMLocationTask saveANMLocationTask;
+    private SaveUserInfoTask saveUserInfoTask;
 
     private ANMController anmController;
     private ANMLocationController anmLocationController;
@@ -545,7 +547,7 @@ public class Context {
     public UserService userService() {
         if (userService == null) {
             Repository repo = initRepository();
-            userService = new UserService(repo, allSettings(), allSharedPreferences(), httpAgent(), session(), configuration(), saveANMLocationTask());
+            userService = new UserService(repo, allSettings(), allSharedPreferences(), httpAgent(), session(), configuration(), saveANMLocationTask(), saveUserInfoTask());
         }
         return userService;
     }
@@ -555,6 +557,13 @@ public class Context {
             saveANMLocationTask = new SaveANMLocationTask(allSettings());
         }
         return saveANMLocationTask;
+    }
+
+    private SaveUserInfoTask saveUserInfoTask() {
+        if(saveUserInfoTask == null) {
+            saveUserInfoTask = new SaveUserInfoTask(allSettings());
+        }
+        return saveUserInfoTask;
     }
 
     public AlertService alertService() {
